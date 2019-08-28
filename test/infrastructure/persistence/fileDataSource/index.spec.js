@@ -2,8 +2,13 @@
 
 const fs = require('fs')
 
-const {readStoredFileStream, jsonFileWriteStream} = require('../../../../src/infrastructure/persistence/fileDataSource')
-const OUTPUT_FILE = `${__dirname}/epa-http.json`
+const {
+  readFileStream,
+  jsonFileWriteStream,
+  loadFile
+} = require('../../../../src/infrastructure/persistence/fileDataSource')
+const INPUT_FILE = `${__dirname}/resources/epa-http.txt`
+const OUTPUT_FILE = `${__dirname}/resources/epa-http.json`
 
 const rmFile = () => {
   if (fs.existsSync(OUTPUT_FILE)) {
@@ -18,7 +23,7 @@ describe('Data importation from stored file', function () {
   it('Given object should be appended in a specific JSON file by using a write stream', async () => {
     const writeStream = jsonFileWriteStream(OUTPUT_FILE)
     writeStream.write(`{"name":"Pedro","surname":"Romaguera","date":"1901-02-01T01:01:00.000Z"}\n`)
-    writeStream.write(`{"name":"Ambrosio","surname":"Casildo"}\n`)
+    writeStream.write(`{"name":"Ambrosio","surname":"Casildo"}`)
     writeStream.end('')
 
     const result = await new Promise(res => {
@@ -27,22 +32,37 @@ describe('Data importation from stored file', function () {
 
     expect(fs.existsSync(OUTPUT_FILE)).toBe(true)
     expect(result).toBe(
+      '[\n' +
       '{"name":"Pedro","surname":"Romaguera","date":"1901-02-01T01:01:00.000Z"}\n' +
-      '{"name":"Ambrosio","surname":"Casildo"}\n'
+      '{"name":"Ambrosio","surname":"Casildo"}\n' +
+      ']\n'
     )
   })
 
   it('Creates a read stream and transform data from stored file', async () => {
-    const readStream = readStoredFileStream()
-    const head = await new Promise(res => {
-      readStream.on('data', res)
+    const readStream = readFileStream(INPUT_FILE)
+    let content = ''
+    await new Promise(res => {
+      readStream
+        .on('data', x => content += x)
+        .on('end', () => res(content))
     })
-    expect(head).toEqual({
-      "host": "141.243.1.172",
-      "datetime": new Date('2019-08-29T21:53:25.000Z'),
-      "request": "\"GET /Software.html HTTP/1.0\"",
-      "response_code": 200,
-      "document_size": 1497
+    expect(content).toBe('{"host":"141.243.1.172","datetime":"2019-08-29T21:53:25.000Z","request":"\\"GET ' +
+      '/Software.html HTTP/1.0\\"","response_code":200,"document_size":1497},\n' +
+      '{"host":"query2.lycos.cs.cmu.edu","datetime":"2019-08-29T21:53:36.000Z","request":"\\"GET ' +
+      '/Consumer.html HTTP/1.0\\"","response_code":200,"document_size":1325}')
+  })
+
+  it('Transforms logs in txt from given file to new JSON file', async () => {
+    const stream = loadFile(INPUT_FILE, OUTPUT_FILE)
+    const result = await new Promise(res => {
+      return stream.on('finish', () => res(fs.readFileSync(OUTPUT_FILE).toString()))
     })
+    expect(result).toBe('[\n' +
+      '{"host":"141.243.1.172","datetime":"2019-08-29T21:53:25.000Z","request":"\\"GET /Software.html HTTP/1.0\\"",' +
+      '"response_code":200,"document_size":1497},\n' +
+      '{"host":"query2.lycos.cs.cmu.edu","datetime":"2019-08-29T21:53:36.000Z","request":"\\"GET /Consumer.html '+
+      'HTTP/1.0\\"","response_code":200,"document_size":1325}' +
+      '\n]\n')
   })
 })

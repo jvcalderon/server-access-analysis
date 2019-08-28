@@ -30,12 +30,14 @@ const logEntryFactory = _.compose(
   _.split(' ')
 )
 
-const isValidStr = x => x.match(/(.*) \[(\d+):(\d+):(\d+):(\d+)] "(GET|POST|PUT|DELETE) (.*)" ([2345]\d\d) (\d+)/g)
+const isValidStr = x => x.match(/(.*) \[(\d+):(\d+):(\d+):(\d+)] "(GET|POST|PUT|DELETE|HEAD) (.*)" ([2345]\d\d) (\d+)/g)
 
-const create = _.cond([
-  [isValidStr, _.compose(_.tap(events.emit.CREATED), logEntryFactory)],
-  [_.stubTrue, _.compose(_.tap(events.emit.ERRORED), _.stubFalse)]
-])
+const sanitize = _.replace(/-$/, '0') // Fixes size '-' (must be a number)
+
+const create = x => _.cond([
+  [_.compose(isValidStr, sanitize), _.compose(_.tap(events.emit.CREATED), logEntryFactory, sanitize)],
+  [_.stubTrue, _.compose(_.tap(() => events.emit.ERRORED(x)), _.stubFalse)]
+])(x)
 
 module.exports = {
   create,
