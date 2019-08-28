@@ -7,6 +7,7 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "highland": "^2.13.5",
     "jest": "^24.9.0"
   }
 }

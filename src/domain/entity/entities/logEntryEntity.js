@@ -30,7 +30,14 @@ const logEntryFactory = _.compose(
   _.split(' ')
 )
 
+const isValidStr = x => x.match(/(.*) \[(\d+):(\d+):(\d+):(\d+)] "(GET|POST|PUT|DELETE) (.*)" ([2345]\d\d) (\d+)/g)
+
+const create = _.cond([
+  [isValidStr, _.compose(_.tap(events.emit.CREATED), logEntryFactory)],
+  [_.stubTrue, _.compose(_.tap(events.emit.ERRORED), _.stubFalse)]
+])
+
 module.exports = {
-  create: _.compose(_.tap(events.emit.CREATED), logEntryFactory),
+  create,
   events
 }

@@ -5,7 +5,7 @@ Server Access Analysis (exercise)
 
 ### Main goal
 
-- Parse a given [log file](./resources/epa-http.txt) and generate a new file in JSON format.
+- Parse a given [log file](src/application/service/fileDataSource/resources/epa-http.txt) and generate a new file in JSON format.
 - Provide an UI to render log results as graphic charts within following information:
     - Requests per minute over the entire time span
     - Distribution of HTTP methods (GET, POST, HEAD,...)

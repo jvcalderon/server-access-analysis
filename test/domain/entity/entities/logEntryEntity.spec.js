@@ -13,4 +13,9 @@ describe('Log entry domain', function () {
       "document_size": 1497
     })
   })
+
+  it('String with wrong format must be validated and not processed (must return false)', async () => {
+    const row0 = logEntry.create('141.2[29:23:53:s] "GET /Software.html HTTP/1.0" 900 149s7')
+    expect(row0).toBe(false)
+  })
 })
