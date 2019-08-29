@@ -5,10 +5,10 @@
   "license": "MIT",
   "dependencies": {
     "express": "^4.17.1",
+    "highland": "^2.13.5",
     "lodash": "^4.17.15"
   },
   "devDependencies": {
-    "highland": "^2.13.5",
     "jest": "^24.9.0"
   }
 }
