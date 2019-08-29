@@ -5,7 +5,31 @@ Server Access Analysis (exercise)
 
 ### Main goal
 
-- Parse a given [log file](src/infrastructure/persistence/fileDataSource/resources/epa-http.txt) and generate a new file in JSON format.
+- Parse a given [log file](src/infrastructure/persistence/fileDataSource/resources/epa-http.txt) and generate a new file in JSON format. Must look like the following example:
+
+```
+[
+  {
+    "host": "141.243.1.172",
+    "datetime": {
+      "day": "29",
+      "hour": "23",
+      "minute": "53",
+      "second": "25"
+    },
+    "request": {
+      "method": "GET",
+      "url": "/Software.html",
+      "protocol": "HTTP",
+      "protocol_version": "1.0"
+    },
+    "response_code": "200",
+    "document_size": "1497"
+},
+  ...more data sets...
+]
+```
+ 
 - Provide an UI to render log results as graphic charts within following information:
     - Requests per minute over the entire time span
     - Distribution of HTTP methods (GET, POST, HEAD,...)

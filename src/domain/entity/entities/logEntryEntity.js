@@ -8,7 +8,8 @@ const toNum = key => x => _.set(key, _.toNumber(x[key]), x)
 const toDate = key => x => _.set(
   key,
   _.compose(
-    xs => new Date(2019, 7, ...xs), // TODO: Hardcoded year and month. It's just valid for the specific exercise purpose
+    xs => ({day: xs[0], hour: xs[1], minute: xs[2], second: xs[3]}),
+    _.map(_.toNumber),
     _.split(':'),
     _.replace(']', ''),
     _.replace('[', '')

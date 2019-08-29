@@ -47,9 +47,9 @@ describe('Data importation from stored file', function () {
         .on('data', x => content += x)
         .on('end', () => res(content))
     })
-    expect(content).toBe('{"host":"141.243.1.172","datetime":"2019-08-29T21:53:25.000Z","request":"\\"GET ' +
-      '/Software.html HTTP/1.0\\"","response_code":200,"document_size":1497},\n' +
-      '{"host":"query2.lycos.cs.cmu.edu","datetime":"2019-08-29T21:53:36.000Z","request":"\\"GET ' +
+    expect(content).toBe('{"host":"141.243.1.172","datetime":{"day":29,"hour":23,"minute":53,"second":25},' +
+      '"request":"\\"GET /Software.html HTTP/1.0\\"","response_code":200,"document_size":1497},\n' +
+      '{"host":"query2.lycos.cs.cmu.edu","datetime":{"day":29,"hour":23,"minute":53,"second":36},"request":"\\"GET ' +
       '/Consumer.html HTTP/1.0\\"","response_code":200,"document_size":1325}')
   })
 
@@ -59,10 +59,10 @@ describe('Data importation from stored file', function () {
       return stream.on('finish', () => res(fs.readFileSync(OUTPUT_FILE).toString()))
     })
     expect(result).toBe('[\n' +
-      '{"host":"141.243.1.172","datetime":"2019-08-29T21:53:25.000Z","request":"\\"GET /Software.html HTTP/1.0\\"",' +
-      '"response_code":200,"document_size":1497},\n' +
-      '{"host":"query2.lycos.cs.cmu.edu","datetime":"2019-08-29T21:53:36.000Z","request":"\\"GET /Consumer.html '+
-      'HTTP/1.0\\"","response_code":200,"document_size":1325}' +
+      '{"host":"141.243.1.172","datetime":{"day":29,"hour":23,"minute":53,"second":25},"request":"\\"GET ' +
+      '/Software.html HTTP/1.0\\"","response_code":200,"document_size":1497},\n' +
+      '{"host":"query2.lycos.cs.cmu.edu","datetime":{"day":29,"hour":23,"minute":53,"second":36},"request":"\\"GET ' +
+      '/Consumer.html HTTP/1.0\\"","response_code":200,"document_size":1325}' +
       '\n]\n')
   })
 })
