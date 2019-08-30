@@ -51,3 +51,36 @@ Server Access Analysis (exercise)
 - Ensure that all records are being imported
 - Sanitize wrong characters
 
+## Solution
+
+### Architecture
+
+I choosed an hexagonal architecture approach to keep dependency inversion principle. Content transformation must be
+agnostic of low level details (file read, new file creation). Here you have a simple diagram of architecture:
+
+![Architecture diagram](./doc/architecture.png)
+
+### Domain
+
+Domain entity contains the core of the functionality. It converts raw data in a valid JS object with the desired format. Tho diferent event are emitted when domain status change:
+
+- CREATED: Is not used in this application. It has been provided for an potential use.
+- ERRORED: Notifies a parser error. It has been provided to guarantee that all records are being imported.
+
+Why events? Domain events remains domain to be decoupled from external layers.
+
+### Application
+
+You can find here all the frontend implementation. It's coupled to JSON structure created by domain.
+
+### Infrastructure
+
+Contains all low level components:
+
+- HTTP: By using Express, exposes generated JSON file (consumed by application) and UI.
+- File Data Source: By using read/write streams sends raw content to domain and stores results in a new JSON file. Why streams? Is a faster and 'memory cheap' method to read and create files.
+- Error listener: By listening domain events, prints parse errors.
+
+## Acknowledgements
+
+The logs were collected by Laura Bottomley (laurab@ee.duke.edu) of Duke University.
