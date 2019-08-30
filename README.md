@@ -62,7 +62,7 @@ agnostic of low level details (file read, new file creation). Here you have a si
 
 ### Domain
 
-Domain entity contains the core of the functionality. It converts raw data in a valid JS object with the desired format. Tho diferent event are emitted when domain status change:
+Domain entity contains the core of the functionality. It converts raw data in a valid JS object with the desired format. Two diferent event are emitted when domain status change:
 
 - CREATED: Is not used in this application. It has been provided for an potential use.
 - ERRORED: Notifies a parser error. It has been provided to guarantee that all records are being imported.
