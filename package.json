@@ -1,6 +1,8 @@
 {
   "name": "server-access-analysis",
   "version": "1.0.0",
+  "description": "A solution to exercise 'Server Access Analysis'",
+  "author": "José Vte. Calderón",
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
@@ -12,6 +14,7 @@
     "jest": "^24.9.0"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node src/index.js"
   }
 }

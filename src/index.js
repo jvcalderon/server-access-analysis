@@ -10,4 +10,8 @@ const load = async () => await new Promise(res => loadFile().on('finish', res))
 load().then(() => require('./infrastructure/http'))
 
 // Listeners
-emitter.on(ERRORED, console.log) // TODO Any other action (like persist in other file) must be listen to this event
+// TODO Any other action (like persist in other file) must be listen to this event
+emitter.on(ERRORED, x => console.warn(`Invalid entry: ${x}`))
+
+// TODO You can perform any action for CREATED event. F.ex. persist log entry in an hypothetical DB
+// emitter.on(CREATED, /* Here your callback function */))

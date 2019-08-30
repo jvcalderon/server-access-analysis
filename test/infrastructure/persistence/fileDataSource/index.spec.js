@@ -48,9 +48,11 @@ describe('Data importation from stored file', function () {
         .on('end', () => res(content))
     })
     expect(content).toBe('{"host":"141.243.1.172","datetime":{"day":29,"hour":23,"minute":53,"second":25},' +
-      '"request":"\\"GET /Software.html HTTP/1.0\\"","response_code":200,"document_size":1497},\n' +
-      '{"host":"query2.lycos.cs.cmu.edu","datetime":{"day":29,"hour":23,"minute":53,"second":36},"request":"\\"GET ' +
-      '/Consumer.html HTTP/1.0\\"","response_code":200,"document_size":1325}')
+      '"request":{"method":"GET","url":"/Software.html","protocol":"HTTP","protocol_version":"1.0"},' +
+      '"response_code":200,"document_size":1497},\n' +
+      '{"host":"query2.lycos.cs.cmu.edu","datetime":{"day":29,"hour":23,"minute":53,"second":36},' +
+      '"request":{"method":"GET","url":"/Consumer.html","protocol":"HTTP","protocol_version":"1.0"},' +
+      '"response_code":200,"document_size":1325}')
   })
 
   it('Transforms logs in txt from given file to new JSON file', async () => {
@@ -59,10 +61,12 @@ describe('Data importation from stored file', function () {
       return stream.on('finish', () => res(fs.readFileSync(OUTPUT_FILE).toString()))
     })
     expect(result).toBe('[\n' +
-      '{"host":"141.243.1.172","datetime":{"day":29,"hour":23,"minute":53,"second":25},"request":"\\"GET ' +
-      '/Software.html HTTP/1.0\\"","response_code":200,"document_size":1497},\n' +
-      '{"host":"query2.lycos.cs.cmu.edu","datetime":{"day":29,"hour":23,"minute":53,"second":36},"request":"\\"GET ' +
-      '/Consumer.html HTTP/1.0\\"","response_code":200,"document_size":1325}' +
+      '{"host":"141.243.1.172","datetime":{"day":29,"hour":23,"minute":53,"second":25},' +
+      '"request":{"method":"GET","url":"/Software.html","protocol":"HTTP","protocol_version":"1.0"},' +
+      '"response_code":200,"document_size":1497},\n' +
+      '{"host":"query2.lycos.cs.cmu.edu","datetime":{"day":29,"hour":23,"minute":53,"second":36},' +
+      '"request":{"method":"GET","url":"/Consumer.html","protocol":"HTTP","protocol_version":"1.0"},' +
+      '"response_code":200,"document_size":1325}' +
       '\n]\n')
   })
 })
