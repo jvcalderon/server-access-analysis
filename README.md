@@ -1,6 +1,9 @@
 Server Access Analysis (exercise)
 =================================
 
+[![Build Status](https://travis-ci.org/jvcalderon/server-access-analysis.svg?branch=master)](https://travis-ci.org/jvcalderon/server-access-analysis)
+[![Coverage Status](https://coveralls.io/repos/github/jvcalderon/server-access-analysis/badge.svg?branch=master)](https://coveralls.io/github/jvcalderon/server-access-analysis?branch=master)
+
 ## Exercise description
 
 ### Main goal
