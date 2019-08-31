@@ -11,10 +11,12 @@
     "lodash": "^4.17.15"
   },
   "devDependencies": {
+    "coveralls": "^3.0.6",
     "jest": "^24.9.0"
   },
   "scripts": {
     "test": "jest",
-    "start": "node src/index.js"
+    "start": "node src/index.js",
+    "coverall": "node node_modules/.bin/jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
   }
 }
